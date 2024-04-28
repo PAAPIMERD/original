@@ -1,0 +1,67 @@
+Goto Root user
+sudo -i
+-----------------
+Set up repository
+sudo apt-get update
+sudo apt-get install \
+apt-transport-https \
+ca-certificates \
+curl \
+gnupg-agent \
+software-properties-common
+
+-------------------------
+Add Docker's Official GPG Key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository \
+"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) \
+stable"
+---------------
+
+Install Docker Engine
+ sudo apt-get install docker-ce docker-ce-cli containerd.io
+----------------
+Check Status of Docker
+systemctl status docker
+--------------------
+connect to docker
+docker images
+(Only root user can communicate)
+(need to add other user in docker group)
+sudo usermod -aG docker ubuntu
+id ubuntu (Check ubuntu user in docker group)
+----------------------------
+restart and check docker images command
+-----------------------------------------
+run sample images
+docker run hello-world
+---------------------
+docker ps
+docker ps -a (show dead container)
+========================
+Assignment 9 | 20210801094
+SCEABCA TY (VI SEM) Page 2
+AIM: "ImplemenƟng Docker Health Checks for PostgreSQL Database in a Containerized
+Environment"
+STEP 1: Launch the instance and install the docker
+COMMANDS:
+$mkdir healthcheck
+$cd healthcheck
+$docker ps -a
+$docker container run --name pg1 -e POSTGRES_PASSWORD=mypassword -d postgres
+$docker ps -a
+
+STEP 2: to check the health of container
+COMMANDS:
+$docker container run --name pg2 -e POSTGRES_PASSWORD=mypassword --health-cmd="pg_isready -u
+postgres || exit" -d postgres
+$docker ps -a (health: starƟng)
+
+Assignment 9 | 20210801094
+SCEABCA TY (VI SEM) Page 4
+AŌer Using Root user
+Commands :
+$docker container run --name pg3 -e POSTGRES_PASSWORD=mypassword --health-cmd="pg_isready -u
+root || exit" -d postgres
